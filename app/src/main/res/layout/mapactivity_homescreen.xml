@@ -47,7 +47,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:text="@string/travel_map_app"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/purple_500" />
                 </LinearLayout>
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>

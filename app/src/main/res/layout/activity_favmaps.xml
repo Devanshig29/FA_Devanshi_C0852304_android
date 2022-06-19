@@ -44,7 +44,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/update_place"
-                        android:textColor="@color/locaddress" />
+                        android:textColor="@color/purple_500" />
 
 
 
@@ -127,7 +127,7 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:layout_weight="1"
-                        android:textColor="@color/locaddress"
+                        android:textColor="@color/purple_500"
                         android:text="@string/search_or_long_press_on_map_to_change_favourites"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"/>
