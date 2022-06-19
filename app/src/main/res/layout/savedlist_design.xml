@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.chauthai.swipereveallayout.SwipeRevealLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:mode="same_level"
+    app:dragEdge="right"
+    android:layout_marginBottom="@dimen/_3sdp"
+   >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/edit_tv"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@android:color/darker_gray"
+            android:textColor="@android:color/white"
+            android:text="Edit" />
+
+        <TextView
+            android:id="@+id/delete_tv"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@android:color/holo_red_dark"
+            android:textColor="@android:color/white"
+            android:text="Delete" />
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:id="@+id/frontLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/mCardView"
+                card_view:contentPadding="10dp"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                card_view:cardBackgroundColor="@android:color/white"
+                card_view:cardElevation="5dp">
+
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:background="@drawable/location"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                         />
+                    <TextView
+                        android:layout_marginStart="@dimen/_3sdp"
+                        android:id="@+id/accountName_tv"
+                        android:layout_gravity="center"
+                        android:textColor="@android:color/black"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="---"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:weightSum="3"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:padding="@dimen/_3sdp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:id="@+id/mVisited"
+                            android:layout_gravity="center"
+                            android:textColor="@android:color/black"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="@string/mark_as_visited"
+                            android:textSize="@dimen/_13sdp" />
+
+                        <TextView
+                            android:gravity="center"
+                            android:padding="@dimen/_3sdp"
+                            android:layout_weight="1"
+                            android:id="@+id/mDirectionsTv"
+                            android:textColor="@android:color/black"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="@string/get_directions"
+                            android:textSize="@dimen/_13sdp" />
+
+                        <TextView
+                            android:padding="@dimen/_3sdp"
+                            android:layout_weight="1"
+                            android:id="@+id/mDistanceTv"
+                            android:textColor="@android:color/black"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="@string/get_distance"
+                            android:textSize="@dimen/_13sdp" />
+
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:padding="@dimen/_3sdp"
+                        android:id="@+id/mRestroTv"
+                        android:textColor="@android:color/black"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="@string/get_nearby_restro_bars_cafe"
+                        android:textSize="@dimen/_13sdp" />
+
+
+
+
+
+
+
+                </LinearLayout>
+
+
+
+
+
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+
+
+
+</com.chauthai.swipereveallayout.SwipeRevealLayout>
+
+
+

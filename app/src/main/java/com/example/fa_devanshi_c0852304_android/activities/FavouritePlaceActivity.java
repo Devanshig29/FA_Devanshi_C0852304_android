@@ -1,0 +1,293 @@
+package com.example.fa_devanshi_c0852304_android.activities;
+
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.fa_devanshi_c0852304_android.R;
+import com.example.fa_devanshi_c0852304_android.db.AppDatabase;
+import com.example.fa_devanshi_c0852304_android.db.DatabaseClient;
+import com.example.fa_devanshi_c0852304_android.entities.AddExpense;
+import com.example.fa_devanshi_c0852304_android.preference.SharedPreference;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class FavouritePlaceActivity extends AppCompatActivity {
+
+    @BindView(R.id.recyclerView)
+    RecyclerView mRecyclerView;
+
+    List<AddExpense> ledgers;
+    ArrayList<AddExpense> newList;
+    LedgerAdapter ledgerAdapter;
+
+    @BindView(R.id.noData_ll)
+    LinearLayout noDataLl;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_favourite);
+        ButterKnife.bind(this);
+
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(FavouritePlaceActivity.this));
+
+        getSavedPlaces();
+    }
+
+    private void getSavedPlaces() {
+        class GetLedgerHistory extends AsyncTask<Void, Void, List<AddExpense>> {
+
+            @Override
+            protected List<AddExpense> doInBackground(Void... voids) {
+                ledgers = DatabaseClient
+                        .getInstance(FavouritePlaceActivity.this)
+                        .getAppDatabase()
+                        .addExpenseDao()
+                        .getAll();
+                return ledgers;
+            }
+
+            @Override
+            protected void onPostExecute(List<AddExpense> ledgers) {
+                super.onPostExecute(ledgers);
+
+
+                newList = new ArrayList<>(ledgers.size());
+
+                if (ledgers.size() == 0) {
+                    noDataLl.setVisibility(View.VISIBLE);
+                    mRecyclerView.setVisibility(View.GONE);
+
+
+                } else {
+                    mRecyclerView.setVisibility(View.VISIBLE);
+                    noDataLl.setVisibility(View.GONE);
+                    ledgerAdapter = new LedgerAdapter(FavouritePlaceActivity.this, ledgers);
+                    Log.e("List", ledgers + "");
+                    mRecyclerView.setAdapter(ledgerAdapter);
+                }
+
+
+            }
+        }
+        GetLedgerHistory getLedgerHistory = new GetLedgerHistory();
+        getLedgerHistory.execute();
+    }
+
+    private void deleteSelectedRow(AddExpense model) {
+        class DeleteSelectedRow extends AsyncTask<Void, Void, Void> {
+
+            boolean isSuccess = false;
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+
+                final AppDatabase appDatabase = DatabaseClient.getInstance(FavouritePlaceActivity.this).getAppDatabase();
+                appDatabase.runInTransaction(new Runnable() {
+                    @Override
+                    public void run() {
+                        appDatabase.addExpenseDao().delete(model);
+
+                    }
+                });
+
+
+                return null;
+
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                getSavedPlaces();
+            }
+        }
+
+        DeleteSelectedRow deleteSelectedRow = new DeleteSelectedRow();
+        deleteSelectedRow.execute();
+    }
+
+
+    //---------------------------Adapter------------------------------------//
+    public class LedgerAdapter extends RecyclerView.Adapter<LedgerAdapter.MyViewHolder> {
+
+        Context context;
+        List<AddExpense> childFeedList;
+
+
+        public LedgerAdapter(Context context, List<AddExpense> childFeedList) {
+            this.context = context;
+            this.childFeedList = childFeedList;
+        }
+
+        @Override
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.savedlist_design, parent, false);
+            return new MyViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(final MyViewHolder holder, final int position) {
+            final AddExpense ledger = childFeedList.get(position);
+            holder.mAccountNameTv.setText(ledger.getName());
+            if(ledger.getIsVisited().equalsIgnoreCase("false")){
+                holder.mVisited.setText(R.string.markasvisited);
+                holder.mCardView.setBackgroundColor(Color.parseColor("#A8C9ED"));
+            }else{
+                holder.mVisited.setText(R.string.already);
+                holder.mCardView.setBackgroundColor(Color.parseColor("#D0FFD7"));
+            }
+
+
+            holder.mDeleteTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    deleteSelectedRow(ledger);
+
+                }
+            });
+
+            holder.mEditTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(FavouritePlaceActivity.this,FavoritePlcMapActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("OBJ", ledger);
+                    intent.putExtras(bundle);
+                    intent.putExtra("TYPE","");
+                    startActivity(intent);
+
+                }
+            });
+
+            holder.mDirectionsTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String uri = "http://maps.google.com/maps?saddr=" + SharedPreference.getLatitude() + "," + SharedPreference.getLongitude() + "&daddr=" + ledger.getLat() + "," + ledger.getLng();
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                    intent.setPackage("com.google.android.apps.maps");
+                    startActivity(intent);
+                }
+            });
+
+            holder.mDistanceTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(FavouritePlaceActivity.this,FavoritePlcMapActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("OBJ", ledger);
+                    intent.putExtras(bundle);
+                    intent.putExtra("TYPE","DIRECTIONS");
+                    startActivity(intent);
+                }
+            });holder.mRestroTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(FavouritePlaceActivity.this,FavoritePlcMapActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("OBJ", ledger);
+                    intent.putExtras(bundle);
+                    intent.putExtra("TYPE","NEARBY");
+                    startActivity(intent);
+                }
+            });
+
+
+            holder.mVisited.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    updateVisitStatus(ledger);
+                }
+            });
+
+
+        }
+
+
+
+
+        @Override
+        public int getItemCount() {
+            return childFeedList.size();
+        }
+
+
+
+        public class MyViewHolder extends RecyclerView.ViewHolder {
+
+            TextView mAccountNameTv,mVisited;
+            TextView mDeleteTv,mDirectionsTv,mDistanceTv,mRestroTv;
+            TextView mEditTv;
+            View mFrontLayout;
+            CardView mCardView;
+
+
+            public MyViewHolder(View itemView) {
+                super(itemView);
+
+                mAccountNameTv = (TextView) itemView.findViewById(R.id.accountName_tv);
+                mVisited = (TextView) itemView.findViewById(R.id.mVisited);
+                mDeleteTv = (TextView) itemView.findViewById(R.id.delete_tv);
+                mDirectionsTv = (TextView) itemView.findViewById(R.id.mDirectionsTv);
+                mDistanceTv = (TextView) itemView.findViewById(R.id.mDistanceTv);
+                mRestroTv = (TextView) itemView.findViewById(R.id.mRestroTv);
+                mEditTv = (TextView) itemView.findViewById(R.id.edit_tv);
+                mFrontLayout = (FrameLayout) itemView.findViewById(R.id.frontLayout);
+                mCardView = itemView.findViewById(R.id.mCardView);
+
+
+            }
+        }
+    }
+
+    private void updateVisitStatus(AddExpense ledger) {
+        class SaveExpense extends AsyncTask<Void, Void, Void> {
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+
+                ledger.setIsVisited("true");
+
+                //adding to database
+                DatabaseClient.getInstance(FavouritePlaceActivity.this).getAppDatabase()
+                        .addExpenseDao()
+                        .update(ledger);
+                return null;
+
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                Toast.makeText(FavouritePlaceActivity.this, "Status Changed", Toast.LENGTH_LONG).show();
+                getSavedPlaces();
+            }
+        }
+
+        SaveExpense saveExpense = new SaveExpense();
+        saveExpense.execute();
+    }
+}

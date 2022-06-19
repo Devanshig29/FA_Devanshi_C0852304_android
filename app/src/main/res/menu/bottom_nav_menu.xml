@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:title="Home"
+        android:icon="@drawable/home"/>
+    <item
+        android:id="@+id/mCurrentLocationBtn"
+        android:title="Current Location"
+        android:icon="@drawable/location"/>
+    <item
+        android:id="@+id/mMapTypeBtn"
+        android:title="Map Type"
+        android:icon="@drawable/map"/>
+    <item
+        android:id="@+id/favouriteplace"
+        android:title="Favourite Locations"
+        android:icon="@drawable/fav"/>
+</menu>

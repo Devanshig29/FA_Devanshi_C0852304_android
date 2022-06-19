@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/homepage"
+    android:fitsSystemWindows="false">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:gravity="center"
+        android:padding="@dimen/_10sdp"
+        android:text="@string/travel_map_app"
+        android:textColor="@color/design_default_color_on_secondary"
+        android:textSize="@dimen/_26sdp"
+        android:textStyle="bold" />
+</RelativeLayout>
