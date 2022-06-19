@@ -19,7 +19,7 @@
     <string name="update_location">Update Location</string>
     <string name="update_place">Update Place</string>
     <string name="swipe_item_to_delete_or_edit">Swipe item to delete or edit.</string>
-    <string name="we_couldn_t_find_any_records">We couldn\'t find any records.</string>
+    <string name="we_couldn_t_find_any_records">No Records!!</string>
     <string name="travel_map_app">Travel Your Way</string>
     <string name="already">Already Visited</string>
     <string name="markasvisited">Mark As Visited</string>

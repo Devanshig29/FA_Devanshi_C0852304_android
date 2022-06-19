@@ -69,8 +69,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp">
 
-                    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                        xmlns:tools="http://schemas.android.com/tools"
+                    <fragment
                         android:id="@+id/myMap"
                         android:name="com.google.android.gms.maps.SupportMapFragment"
                         android:layout_width="match_parent"
@@ -127,7 +126,7 @@
                         android:layout_margin="@dimen/_3sdp"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:textColor="@color/locaddress"
+                        android:textColor="@color/purple_500"
                         android:text="@string/search_or_long_press_on_map_to_save_favourites"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -189,7 +188,7 @@
                                 android:layout_gravity="center"
                                 android:layout_width="38dp"
                                 android:layout_height="38dp"
-                                android:src="@drawable/location"/>
+                                android:src="@drawable/loca"/>
                             <TextView
                                 android:gravity="center"
                                 android:textColor="@color/darkgrey"
@@ -243,8 +242,8 @@
                             android:id="@+id/favouriteplace">
                             <ImageView
                                 android:layout_gravity="center"
-                                android:layout_width="38dp"
-                                android:layout_height="38dp"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
                                 android:src="@drawable/fav"/>
                             <TextView
                                 android:gravity="center"
